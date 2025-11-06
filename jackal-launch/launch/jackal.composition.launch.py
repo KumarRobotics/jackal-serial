@@ -34,12 +34,12 @@ def generate_launch_description():
 
     # Nodes
     # Teleop
-    jeti_node = ComposableNode(package='jackal_teleop',
-                               plugin='jackal_teleop::JetiJoy',
-                               name='jeti_joy')
     teleop_node = ComposableNode(package='jackal_teleop',
                                  plugin='jackal_teleop::JackalTeleop',
                                  name='jackal_teleop_node')
+    joy_node = Node(package='joy',
+                    executable='joy_node',
+                    output='screen')
     # control
     robot_state_node = ComposableNode(package='robot_state_publisher',
                                       plugin='robot_state_publisher::RobotStatePublisher',
@@ -87,8 +87,7 @@ def generate_launch_description():
         namespace='jackal',
         package='rclcpp_components',
         executable='component_container_mt',  
-        composable_node_descriptions=[jeti_node,
-                                      teleop_node,
+        composable_node_descriptions=[teleop_node,
                                       robot_state_node,
                                       jackal_node],
         output='screen'
@@ -96,6 +95,7 @@ def generate_launch_description():
 
     return LaunchDescription([robot_description_command_arg, 
                               container, 
+                              joy_node,
                               control_node,
                               joint_spawner_node, 
                               vel_spawner_node])
