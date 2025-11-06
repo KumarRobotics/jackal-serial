@@ -1,7 +1,8 @@
 # Jackal Service
 
-This repo contains the code for controling the jackal and jeti transmitter. For teleoperation a signal is sent from the jeti transmitter to the jeti reciever.
- The `jeti_joy` node gets this signal over serial and translates it to a `Joy` msg and publishes it on the `/joy` topic. The `jackal_teleop_node` converts the joy topic 
+This repo contains the code for controling the jackal with ROS 2 without MicroDDS. You can keep the original ROS 1 firmware on your jackal, the `jackal-serial` module will convert the ROS 2 messages
+and serialize them for the ROS 1 controller. This will allow you to keep your jackal as a true localhost only. For teleoperation a signal is sent from the jeti transmitter to the jeti reciever.
+The `jeti_joy` node gets this signal over serial and translates it to a `Joy` msg and publishes it on the `/joy` topic. The `jackal_teleop_node` converts the joy topic 
 to a velocity command in m/s for linear and rad/sec for angular. This gets sent to the `jackal_velocity_controller` which applies those commands to a differential
 drive controller. This publishes `joint_states` for each wheel that then get translated to a `Drive` msg to be serialized and sent to the micro controller over
 serial.
