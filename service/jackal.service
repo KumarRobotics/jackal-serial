@@ -1,0 +1,13 @@
+[Unit]
+Description=My Docker Container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/bin/bash -c '/usr/bin/docker run --rm --name dcist-jackal-$(hostname)-service --privileged --network=host -v "/dev:/dev" dcist-jackal-$(hostname):service'
+ExecStop=/bin/bash -c '/usr/bin/docker stop dcist-jackal-$(hostname)-service'
+
+[Install]
+WantedBy=multi-user.target
+
